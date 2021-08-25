@@ -5,6 +5,8 @@ from dotenv import load_dotenv
 import json
 import argparse
 
+from src.utils import get_choices
+
 load_dotenv()
 openai.api_key = os.environ.get("OPENAI_KEY")
 
@@ -51,24 +53,8 @@ def main(argv=None) -> str:
     parser = get_arg_parser()
     args = parser.parse_args(argv)
 
-    # create the autocompleted bash response 
-    user_input = args.description
-    openai_prompt = f'#!/bin/bash\n\n#{user_input}\n'
+    choices = get_choices(args.description, args.response_length)
 
-
-    response = openai.Completion.create(
-        engine="davinci-codex",
-        prompt=openai_prompt,
-        temperature=0,
-        max_tokens=args.response_length,
-        top_p=1.0,
-        frequency_penalty=0.0,
-        presence_penalty=0.0,
-        stop=["\n\n", "#",]
-    )
-
-    # split up all of the provided choices and provide them back to the user
-    choices = [c['text'].lstrip('\n') for c in response.get('choices', [])]  
     return json.dumps(choices, indent=2)
 
 

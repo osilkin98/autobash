@@ -7,7 +7,7 @@ setup(
     author_email='oxsilkin@gmail.com',
     license='MIT',
     description='Provides an autocompleted bash command using the provided user\'s input',
-    python_requires='>=3.6',
+    python_requires='>=3.9',
     packages=find_packages(),
     install_requires=[
         'python-dotenv',
@@ -15,7 +15,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'autoshell = main:main',
+            'autoshell = src.main:main',
         ],
     },
 )
